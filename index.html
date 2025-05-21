@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Starnet Innovations Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7ff;
+      margin: 0;
+      padding: 0;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #007acc;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background: #00aaff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #007acc;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Starnet Innovations Business Form</h2>
+    <form id="businessForm">
+      <input type="text" id="businessName" placeholder="Business Name" name="businessName" required />
+      <input type="text" id="businessAddress" placeholder="Business Address" name="businessAddress" required />
+      <textarea id="businessDescription" placeholder="Business Description" name="businessDescription" rows="4" required></textarea>
+      <textarea id="services" placeholder="Services Offered" name="services" rows="3" required></textarea>
+      <input type="text" id="contactAddress" placeholder="Contact Address" name="contactAddress" required />
+      <input type="text" id="socialMedia" placeholder="Social Media Profile Links" name="socialMedia" />
+      <button type="submit">Submit</button>
+    </form>
+    <p id="responseMsg" style="text-align:center;color:#007acc;"></p>
+  </div>
+
+  <script>
+    document.getElementById("businessForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = {
+        businessName: document.getElementById("businessName").value,
+        businessAddress: document.getElementById("businessAddress").value,
+        businessDescription: document.getElementById("businessDescription").value,
+        services: document.getElementById("services").value,
+        contactAddress: document.getElementById("contactAddress").value,
+        socialMedia: document.getElementById("socialMedia").value
+      };
+
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbzRgdr6UMR9pjvGVIbG-JAL3k-961DWDATXRh55LeD2J0PbYLSrkQcE3dR5pwuMTe141w/exec", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          document.getElementById("responseMsg").textContent = "Submitted successfully!";
+          form.reset();
+        } else {
+          document.getElementById("responseMsg").textContent = "Submission failed. Try again.";
+        }
+      } catch (error) {
+        document.getElementById("responseMsg").textContent = "An error occurred. Check console.";
+        console.error("Submission error:", error);
+      }
+    });
+  </script>
+</body>
+</html>
